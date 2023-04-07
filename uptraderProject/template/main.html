@@ -1,0 +1,26 @@
+{% load menu_tags %}
+
+<ul>
+{% for menu_item in menu_items %}
+    {% if menu_item.is_active %}
+    <li class="active">
+    {% else %}
+    <li>
+    {% endif %}
+        <a href="{{ menu_item.url }}">{{ menu_item.title }}</a>
+        {% if menu_item.children.all %}
+            <ul>
+            {% for child in menu_item.children.all %}
+                {% if child.is_active or child in request.path %}
+                <li class="active">
+                {% else %}
+                <li>
+                {% endif %}
+                    <a href="{{ child.url }}">{{ child.title }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
